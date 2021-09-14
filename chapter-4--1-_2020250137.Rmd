@@ -3,6 +3,7 @@ title: "Chapter 4-(1)"
 output:
   html_document:
     df_print: paged
+  pdf_document: default
 ---
 
 # Chapter 4 The tidyverse
@@ -19,8 +20,10 @@ We will learn how to implement the tidyverse approach throughout the book, but b
 
 We say that a data table is in tidy format if each row represents one observation and columns represent the different variables available for each of these observations. The murders dataset is an example of a tidy data frame.
 ```{r}
+library(pander)
 data(murders)
 head(murders)
+pander(murders)
 ```
 Each row represent a state with each of the five columns providing a different variable related to these states: name, abbreviation, region, population, and total murders.
 
