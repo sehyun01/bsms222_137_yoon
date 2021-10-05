@@ -266,7 +266,7 @@ mean(abs(z) < 2)
 ```
 The proportion is about 95%, which is what the normal distribution predicts! To further confirm that, in fact, the approxiation is a good one, we can use quantile-quantile plots.
 
-##8.10 Quantile-quantile plots
+## 8.10 Quantile-quantile plots
 
 A systematic way to assess how well the normal distribution fits the data is to check if the observed and predicted proportions match. In general, this is the approach of the quantile-quantile plot (QQ-plot).
 
@@ -312,12 +312,14 @@ To see if they match or not, we plot them against each other and draw the identi
 ```{r}
 qplot(theoretical_quantiles, sample_quantiles)+ geom_abline()
 ```
+
 Notice that this code becomes much cleaner if we use standard units:
 ```{r}
 sample_quantiles <- quantile(z,p)
 theoretical_quantiles <- qnorm(p)
 qplot(theoretical_quantiles, sample_quantiles) + geom_abline()
 ```
+
 The above code is included to help describe QQ-plots. However, in practice it is easier to use the ggplot2 code described in Section 8.16:
 ```{r}
 heights %>% filter(sex=="Male") %>% 
@@ -325,6 +327,7 @@ heights %>% filter(sex=="Male") %>%
   geom_qq() +
   geom_abline()
 ```
+
 While for the illustration above we used 20 quantiles, the default from the geom_qq function is to use as many quantiles as data points.
 
 ## 8.11 Percentiles
@@ -501,6 +504,7 @@ To generate a barplot we can use the geom_bar geometry. The default is to count 
 ```{r}
 murders %>% ggplot(aes(region)) +geom_bar()
 ```
+
 We often already have a table with a distribution that we want to present as a barplot. Here is an example of such a table:
 ```{r}
 data(murders)
@@ -523,6 +527,7 @@ heights %>%
   ggplot(aes(height)) +
   geom_histogram()
 ```
+
 If we run the code above, it gives us a message:
 stat_bin() using bins=30. Pick better value with binwidth.
 We previously used a bin size of 1 inch, so the code looks like this:
@@ -532,6 +537,7 @@ heights %>%
   ggplot(aes(height)) +
   geom_histogram(binwidth = 1)
 ```
+
 Finally, if for aesthetic reasons we want to add color, we use the arguments described in the help file. We also add labels and a title:
 ```{r}
 heights %>% 
@@ -551,6 +557,7 @@ heights %>%
   ggplot(aes(height)) +
   geom_density()
 ```
+
 To fill in with color, we can use the fill argument.
 ```{r}
 heights %>% 
@@ -558,6 +565,7 @@ heights %>%
   ggplot(aes(height)) +
   geom_density(fill="blue")
 ```
+
 To change the smoothness of the density, we use the adjust argument to multiply the default value by that adjust. For example, if we want the bandwidth to be twice as big we use:
 ```{r}
 heights %>% 
@@ -578,6 +586,7 @@ heights %>% filter(sex=="Male") %>%
   ggplot(aes(sample=height))+
   geom_qq()
 ```
+
 By default, the sample variable is compared to a normal distribution with average 0 and standard deviation 1. To change this, we use the dparams arguments based on the help file. Adding an identity line is as simple as assigning another layer. For straight lines, we use the geom_abline function. The default line is the identity line (slope = 1, intercept = 0).
 ```{r}
 params<- heights %>% filter(sex=="Male") %>% 
@@ -588,6 +597,7 @@ heights %>% filter(sex=="Male") %>%
   geom_qq(dparams = params) +
   geom_abline()
 ```
+
 Another option here is to scale the data first and then make a qqplot against the standard normal.
 ```{r}
 heights %>% 
@@ -609,6 +619,7 @@ Note that this is the tidy version of a matrix, matrix(1:120, 12, 10). To plot t
 x %>% ggplot(aes(x,y,fill=z)) +
   geom_raster()
 ```
+
 With these images you will often want to change the color scale. This can be done through the scale_fill_gradientn layer.
 ```{r}
 x %>% ggplot(aes(x,y,fill=z)) +
@@ -630,28 +641,34 @@ To make a quick histogram we can use:
 ```{r}
 qplot(x)
 ```
+
 The function guesses that we want to make a histogram because we only supplied one variable. In Section 7.13 we saw that if we supply qplot two variables, it automatically makes a scatterplot.
 
 To make a quick qqplot you have to use the sample argument. Note that we can add layers just as we do with ggplot.
 ```{r}
 qplot(sample=scale(x)) +geom_abline()
 ```
+
 If we supply a factor and a numeric vector, we obtain a plot like the one below. Note that in the code below we are using the data argument. Because the data frame is not the first argument in qplot, we have to use the dot operator.
 ```{r}
 heights %>% qplot(sex, height, data=.)
 ```
+
 We can also select a specific geometry by using the geom argument. So to convert the plot above to a boxplot, we use the following code:
 ```{r}
 heights %>% qplot(sex, height, data=., geom = "boxplot")
 ```
+
 We can also use the geom argument to generate a density plot instead of a histogram:
 ```{r}
 qplot(x, geom="density")
 ```
+
 Although not as much as with ggplot, we do have some flexibility to improve the results of qplot. Looking at the help file we see several ways in which we can improve the look of the histogram above. Here is an example:
 ```{r}
 qplot(x, bins=15, color=I("black"), xlab="Population")
 ```
+
 Technical note: The reason we use I("black") is because we want qplot to treat "black" as a character rather than convert it to a factor, which is the default behavior within aes, which is internally called here. In general, the function I is used in R to say “keep it as it is.”
 
 ## 8.17 Exercises
@@ -664,6 +681,7 @@ heights %>%
   ggplot(aes(height)) +
   geom_histogram()
 ```
+
 #c
 
 2. Now create a ggplot object using the pipe to assign the heights data to a ggplot object. Assign height to the x values through the aes function.
@@ -708,6 +726,7 @@ heights %>%
   ggplot(aes(height, fill=sex)) +
   geom_density()
 ```
+
 However, here the second density is drawn over the other. We can make the curves more visible by using alpha blending to add transparency. Set the alpha parameter to 0.2 in the geom_density function to make this change.
 ```{r}
 heights %>% 
